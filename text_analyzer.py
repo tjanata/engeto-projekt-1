@@ -109,8 +109,30 @@ if username in users and users[username] == password:
                 if word.isdigit():
                     suma += int(word)
             print(f"The sum of all the numbers {suma}.")
+            print(oddelovac)
+            print(f"LEN|    OCCURENCES    |NR.")
+            print(oddelovac)
+
+            # Create graph
+            word_lengths = {}
+
+            for word in words:
+                length = len(word)
+                if length in word_lengths:
+                    word_lengths[length] += 1
+                else:
+                    word_lengths[length] = 1
+
+            sorted_lengths = sorted(word_lengths.items())
+            max_length = max(word_lengths.keys())
 
 
+            for item_2 in range(1, max_length + 1):
+                if item_2 in word_lengths:
+                    bar = '*' * word_lengths[item_2]
+                    print(f"{item_2:2d}|{bar: <19}|{word_lengths[item_2]}")
+                else:
+                    print(f"{item_2:2d}|{'': <19}|0")
         
     else:
             print("bad input, terminating the program..")
