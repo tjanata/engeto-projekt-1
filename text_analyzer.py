@@ -42,7 +42,13 @@ users = {
     "mike": "password123",
     "liz": "pass123"
 }
-Text_index = []
+text_index = []
+
+capital_word_count = 0
+uppercase_word_count = 0
+lowercase_word_count = 0
+numeric_word_count = 0
+sum_of_numbers = 0
 
 
 # User´s input
@@ -57,87 +63,84 @@ if username in users and users[username] == password:
     print(f"We have 3 texts to be analyzed.")
     print(oddelovac)
 
-    # Get number of selected text from user
-    selected_text = input("Enter a number btw. 1 and 3 to select: ")
-    print(oddelovac)
-
-    # Get number of text from TEXTS
-    for text in range(len(TEXTS)):
-        number_of_text = text + 1
-        Text_index.append(number_of_text)
-    
-    if selected_text.isnumeric() and int(selected_text) in Text_index:
-            # Get index of items in list
-            index = int(selected_text) - 1
-            words = TEXTS[index].split()
-
-            # Count words in selected text
-            word_count = len(words)
-            print(f"There are {word_count} words in the selected text.")
-            
-            # Count words with capital character
-            capital_world = 0
-            for word in words:
-                if word.istitle():
-                    capital_world += 1
-            print (f"There are {capital_world} titlecase words.")
-
-            # Count words with uppercase character only
-            uppercase_word = 0
-            for word in words:
-                 if word.isupper():
-                      uppercase_word += 1
-            print(f"There are {uppercase_word} uppercase words.")
-
-            # Count words with lower characters
-            lower_word = 0
-            for word in words:
-                 if word.islower():
-                      lower_word += 1
-            print(f"There are {lower_word} lowercase words.")
-
-            # Count numeric words
-            numeric_word = 0
-            for word in words:
-                 if word.isdigit():
-                      numeric_word += 1
-            print(f"There are {numeric_word} numeric strings.")
-
-            # Suma of numbers
-            suma = 0
-            for word in words:
-                if word.isdigit():
-                    suma += int(word)
-            print(f"The sum of all the numbers {suma}.")
-            print(oddelovac)
-            print(f"LEN|    OCCURENCES    |NR.")
-            print(oddelovac)
-
-            # Create graph
-            word_lengths = {}
-
-            for word in words:
-                length = len(word)
-                if length in word_lengths:
-                    word_lengths[length] += 1
-                else:
-                    word_lengths[length] = 1
-
-            sorted_lengths = sorted(word_lengths.items())
-            max_length = max(word_lengths.keys())
-
-
-            for item_2 in range(1, max_length + 1):
-                if item_2 in word_lengths:
-                    bar = '*' * word_lengths[item_2]
-                    print(f"{item_2:2d}|{bar: <19}|{word_lengths[item_2]}")
-                else:
-                    print(f"{item_2:2d}|{'': <19}|0")
-        
-    else:
-            print("bad input, terminating the program..")
-
-
 else:
     print(f"unregistered user, terminating the program..")
+    quit()
 
+
+# Get number of selected text from user
+selected_text = input("Enter a number btw. 1 and 3 to select: ")
+print(oddelovac)
+
+
+# Get number of text from TEXTS (adding indexes of individual items from the variable TEXTS to new variable text_index)
+for text in range(len(TEXTS)):
+    number_of_text = text + 1
+    text_index.append(number_of_text)
+
+if int(selected_text) not in text_index:
+    print("bad input, terminating the program..")
+    quit()
+
+else:
+    print(f"Your selected text is {selected_text}")
+
+
+# Get values from TEXTS
+if int(selected_text) not in text_index:
+    quit()
+
+elif selected_text.isnumeric():
+
+    # Get index of items in list
+    index = int(selected_text) - 1
+    words = TEXTS[index].split()
+
+    # Count words in selected text
+    word_count = len(words)
+    print(f"There are {word_count} words in the selected text.")
+
+    # Count other result from selected text
+    for word in words:
+        if word.istitle():
+            capital_word_count += 1
+        elif word.isupper():
+            uppercase_word_count += 1
+        elif word.islower():
+            lowercase_word_count += 1
+        elif word.isdigit():
+            numeric_word_count += 1
+            sum_of_numbers += int(word)
+
+    print(f"There are {capital_word_count} titlecase words.")
+    print(f"There are {uppercase_word_count} uppercase words.")
+    print(f"There are {lowercase_word_count} lowercase words.")
+    print(f"There are {numeric_word_count} numeric strings.")
+    print(f"The sum of all the numbers: {sum_of_numbers}.")
+    print(oddelovac)
+    print(f"LEN|    OCCURENCES    |NR.")
+    print(oddelovac)
+
+
+    # Create graph
+    word_lengths = {}
+
+    for word in words:
+        length = len(word)
+        if length in word_lengths:
+            word_lengths[length] += 1
+        else:
+            word_lengths[length] = 1
+
+    sorted_lengths = sorted(word_lengths.items())
+    max_length = max(word_lengths.keys())
+
+    for item_2 in range(1, max_length + 1):
+        if item_2 in word_lengths:
+            bar = '*' * word_lengths[item_2]
+            print(f"{item_2:2d}|{bar: <19}|{word_lengths[item_2]}")
+        else:
+            print(f"{item_2:2d}|{'': <19}|0")
+else:
+    print("Invalid input. Terminating the program...")
+    quit()
